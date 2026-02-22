@@ -33,7 +33,12 @@ import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useUIScale } from './hooks/useUIScale';
 import { useTheme } from './hooks/useTheme';
 import { useOpenPR } from './hooks/useOpenPR';
-import { getAgentAvailability, hasAnyAvailableAgents, resolvePreferredAgent } from './utils/agentAvailability';
+import {
+  getAgentAvailability,
+  getAgentExecutableSettings,
+  hasAnyAvailableAgents,
+  resolvePreferredAgent,
+} from './utils/agentAvailability';
 import { normalizeInstallChannel, shouldCheckForReleaseUpdates } from './utils/installChannel';
 import './App.css';
 
@@ -605,9 +610,7 @@ function AppContent({
 
   useEffect(() => {
     setLauncherConfig({
-      claudeExecutable: settings.claude_executable || '',
-      codexExecutable: settings.codex_executable || '',
-      copilotExecutable: settings.copilot_executable || '',
+      executables: getAgentExecutableSettings(settings),
     });
   }, [settings, setLauncherConfig]);
 
@@ -918,7 +921,7 @@ function AppContent({
   const handleLocationSelect = useCallback(
     async (path: string, agent: SessionAgent) => {
       if (!hasAvailableAgents) {
-        showError('No supported agent CLI found in PATH (codex, claude, copilot).');
+        showError('No supported agent CLI found in PATH.');
         return;
       }
       // Note: Location is automatically tracked by daemon when session registers
@@ -1117,7 +1120,7 @@ function AppContent({
       console.log(`[App] Open PR requested: ${pr.repo}#${pr.number} - ${pr.title}`);
 
       if (!hasAvailableAgents) {
-        alert('No supported agent CLI found in PATH (codex, claude, copilot).');
+        alert('No supported agent CLI found in PATH.');
         return;
       }
       const configuredDefaultAgent = normalizeSessionAgent(settings.new_session_agent, 'claude');

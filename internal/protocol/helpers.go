@@ -80,6 +80,8 @@ func normalizeSessionAgentValue(agent string) SessionAgent {
 		return SessionAgentCodex
 	case string(SessionAgentCopilot):
 		return SessionAgentCopilot
+	case string(SessionAgentPi):
+		return SessionAgentPi
 	default:
 		return ""
 	}
@@ -112,6 +114,8 @@ func NormalizeSpawnAgent(agent, fallback string) string {
 		return string(SessionAgentCodex)
 	case string(SessionAgentCopilot):
 		return string(SessionAgentCopilot)
+	case string(SessionAgentPi):
+		return string(SessionAgentPi)
 	case AgentShellValue:
 		return AgentShellValue
 	}
@@ -123,6 +127,8 @@ func NormalizeSpawnAgent(agent, fallback string) string {
 		return string(SessionAgentCodex)
 	case string(SessionAgentCopilot):
 		return string(SessionAgentCopilot)
+	case string(SessionAgentPi):
+		return string(SessionAgentPi)
 	case AgentShellValue:
 		return AgentShellValue
 	}
