@@ -42,6 +42,9 @@ describe('loadGhostty', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(compile).toHaveBeenCalledTimes(1);
     expect(instantiate).toHaveBeenCalledTimes(2);
-    expect(mocks.constructedWith).toEqual(instances);
+    // keyEncoderAbi's adapter stands between the instance and ghostty-web, so
+    // each construction is identified by the memory it carries, not by identity.
+    expect(mocks.constructedWith.map((i) => i.exports.memory))
+      .toEqual(instances.map((i) => i.exports.memory));
   });
 });

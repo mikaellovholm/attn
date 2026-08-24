@@ -1,0 +1,17 @@
+kind: fixed
+area: terminal
+change: >
+  Arrow keys, control combos, and Option-composed characters reach the
+  session again.
+symptom: >
+  After the terminal-engine update, a session took ordinary letters but
+  dropped the arrows, so the cursor would not move in an agent's prompt,
+  and dropped every character composed with Option — on a Nordic layout
+  that is @ $ \ | { } [ ]. Control combos went nowhere either. Nothing
+  was reported: the keystroke was silently discarded.
+notes: >
+  The engine bump folded the wasm allocators the key encoder calls into a
+  single pair, and the encoder's package has no build that follows. attn
+  supplies the retired names over the current ones, and a new test drives
+  the real vendored module through the real encoder so the next pin bump
+  fails on a test rather than on a keyboard.
